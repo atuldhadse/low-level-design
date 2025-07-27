@@ -1,0 +1,37 @@
+package boardgame.boards;
+
+import boardgame.game.Board;
+import boardgame.game.Cell;
+
+public class TicTacToeBoard extends Board {
+
+	private final String[][] cells = new String[3][3];
+
+	public String getCell(int i, int j) {
+		return cells[i][j];
+	}
+
+	public void setCell(String symbol, Cell cell) {
+		cells[cell.getI()][cell.getJ()] = symbol;
+	}
+
+	@Override
+	public String toString() {
+		String output = "";
+		for (int i = 0; i < 3; i++) {
+			for (int j = 0; j < 3; j++) {
+				if (this.getCell(i, j) == null) {
+					output += "_";
+				} else {
+					output += this.getCell(i, j);
+				}
+				if (j != 2) {
+					output += " | ";
+				}
+			}
+			output += "\n";
+		}
+		return output;
+	}
+	
+}
