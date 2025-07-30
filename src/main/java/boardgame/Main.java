@@ -3,8 +3,10 @@ package boardgame;
 import java.util.Scanner;
 
 import boardgame.api.GameEngine;
+import boardgame.game.AIEngine;
 import boardgame.game.Board;
 import boardgame.game.Cell;
+import boardgame.game.RuleEngine;
 import boardgame.game.Move;
 import boardgame.game.Player;
 
@@ -17,23 +19,29 @@ public class Main {
 		GameEngine gameEngine = new GameEngine();
 		Board board = gameEngine.start("TicTacToe");
 
+		RuleEngine ruleEngine = new RuleEngine();
+		AIEngine aiEngine = new AIEngine();
+
 		Player human = new Player("O");
 		Player computer = new Player("X");
 
-		while (!gameEngine.isComplete(board).isOver()) {
+		int row;
+		int col;
+
+		while (!ruleEngine.getState(board).isOver()) {
 			System.out.println("Human Make your move: ");
 			System.out.println(board);
-			int i = scn.nextInt();
-			int j = scn.nextInt();
-			gameEngine.makeMove(board, human, new Move(new Cell(i, j)));
-			if (!gameEngine.isComplete(board).isOver()) {
-				gameEngine.makeMove(board, computer, gameEngine.getSuggestedMove(board));
+			row = scn.nextInt();
+			col = scn.nextInt();
+			gameEngine.makeMove(board, new Move(new Cell(row, col), human));
+			if (!ruleEngine.getState(board).isOver()) {
+				gameEngine.makeMove(board, aiEngine.getSuggestedMove(board, computer));
 			}
 		}
 
 		System.out.println(board);
 		System.out.println("Game Completed");
-		System.out.println("Winner: " + gameEngine.isComplete(board).getPlayer().getSymbol());
+		System.out.println("Winner: " + ruleEngine.getState(board).getPlayer().getSymbol());
 
 	}
 

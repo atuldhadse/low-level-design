@@ -2,8 +2,9 @@ package boardgame.boards;
 
 import boardgame.game.Board;
 import boardgame.game.Cell;
+import boardgame.game.Move;
 
-public class TicTacToeBoard extends Board {
+public class TicTacToeBoard implements Board {
 
 	private final String[][] cells = new String[3][3];
 
@@ -33,5 +34,10 @@ public class TicTacToeBoard extends Board {
 		}
 		return output;
 	}
-	
+
+	@Override
+	public void move(Move move) {
+		this.setCell(move.getPlayer().getSymbol(), move.getCell());
+	}
+
 }

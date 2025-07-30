@@ -1,5 +1,7 @@
 package boardgame.game;
 
-public class Board {
+public interface Board {
+
+	public void move(Move move);
 
 }
