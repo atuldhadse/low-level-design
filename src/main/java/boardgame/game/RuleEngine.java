@@ -1,52 +1,58 @@
 package boardgame.game;
 
+import java.util.function.BiFunction;
+
 import boardgame.boards.TicTacToeBoard;
 
 public class RuleEngine {
 
-	public GameResult getState(Board board) {
-		if (board instanceof TicTacToeBoard ticTacBoard) {
-			for (int row = 0; row < 3; row++) {
-				int col;
-				for (col = 1; col < 3 && ticTacBoard.getCell(row, col) != null; col++) {
-					if (!ticTacBoard.getCell(row, col).equals(ticTacBoard.getCell(row, col - 1))) {
-						break;
-					}
-				}
-				if (col == 3) {
-					return new GameResult(true, new Player(ticTacBoard.getCell(row, 0)));
+	public GameResult isVictory(BiFunction<Integer, Integer, String> next) {
+		for (int i = 0; i < 3; i++) {
+			int j;
+			for (j = 1; j < 3 && next.apply(i, j) != null; j++) {
+				if (!next.apply(i, j).equals(next.apply(i, j - 1))) {
+					break;
 				}
 			}
+			if (j == 3) {
+				return new GameResult(true, new Player(next.apply(i, 0)));
+			}
+		}
+		return new GameResult(false, null);
+	}
 
-			for (int col = 0; col < 3; col++) {
-				int row;
-				for (row = 1; row < 3 && ticTacBoard.getCell(row, col) != null; row++) {
-					if (!ticTacBoard.getCell(row, col).equals(ticTacBoard.getCell(row - 1, col))) {
-						break;
-					}
-				}
-				if (row == 3) {
-					return new GameResult(true, new Player(ticTacBoard.getCell(0, col)));
-				}
+	public GameResult getState(Board board) {
+
+		if (board instanceof TicTacToeBoard ticTacBoard) {
+			GameResult result;
+
+			result = isVictory((row, col) -> ticTacBoard.getCellSymbol(row, col));
+			if (result.isOver()) {
+				return result;
+			}
+
+			result = isVictory((row, col) -> ticTacBoard.getCellSymbol(col, row));
+			if (result.isOver()) {
+				return result;
 			}
 
 			int cell;
-			for (cell = 1; cell < 3 && ticTacBoard.getCell(cell, cell) != null; cell++) {
-				if (!ticTacBoard.getCell(cell, cell).equals(ticTacBoard.getCell(cell - 1, cell - 1))) {
+			for (cell = 1; cell < 3 && ticTacBoard.getCellSymbol(cell, cell) != null; cell++) {
+				if (!ticTacBoard.getCellSymbol(cell, cell).equals(ticTacBoard.getCellSymbol(cell - 1, cell - 1))) {
 					break;
 				}
 			}
 			if (cell == 3) {
-				return new GameResult(true, new Player(ticTacBoard.getCell(0, 0)));
+				return new GameResult(true, new Player(ticTacBoard.getCellSymbol(0, 0)));
 			}
 
-			for (cell = 1; cell < 3 && ticTacBoard.getCell(cell, 2 - cell) != null; cell++) {
-				if (!ticTacBoard.getCell(cell, 2 - cell).equals(ticTacBoard.getCell(cell - 1, 3 - cell))) {
+			for (cell = 1; cell < 3 && ticTacBoard.getCellSymbol(cell, 2 - cell) != null; cell++) {
+				if (!ticTacBoard.getCellSymbol(cell, 2 - cell).equals(ticTacBoard.getCellSymbol(cell - 1, 3 - cell))) {
 					break;
 				}
 			}
 			if (cell == 3) {
-				return new GameResult(true, new Player(ticTacBoard.getCell(0, 2)));
+				return new GameResult(true, new Player(ticTacBoard.getCellSymbol(0, 2)));
 			}
 			return new GameResult(false, new Player("-"));
 

@@ -2,10 +2,7 @@ package boardgame.api;
 
 import boardgame.boards.TicTacToeBoard;
 import boardgame.game.Board;
-import boardgame.game.Cell;
-import boardgame.game.GameResult;
 import boardgame.game.Move;
-import boardgame.game.Player;
 
 public class GameEngine {
 

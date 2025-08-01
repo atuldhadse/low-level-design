@@ -8,7 +8,7 @@ public class TicTacToeBoard implements Board {
 
 	private final String[][] cells = new String[3][3];
 
-	public String getCell(int i, int j) {
+	public String getCellSymbol(int i, int j) {
 		return cells[i][j];
 	}
 
@@ -21,10 +21,10 @@ public class TicTacToeBoard implements Board {
 		String output = "";
 		for (int i = 0; i < 3; i++) {
 			for (int j = 0; j < 3; j++) {
-				if (this.getCell(i, j) == null) {
+				if (this.getCellSymbol(i, j) == null) {
 					output += "_";
 				} else {
-					output += this.getCell(i, j);
+					output += this.getCellSymbol(i, j);
 				}
 				if (j != 2) {
 					output += " | ";

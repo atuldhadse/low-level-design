@@ -9,7 +9,7 @@ public class AIEngine {
 		if (board instanceof TicTacToeBoard ticTacBoard) {
 			for (int i = 0; i < 3; i++) {
 				for (int j = 0; j < 3; j++) {
-					if (ticTacBoard.getCell(i, j) == null) {
+					if (ticTacBoard.getCellSymbol(i, j) == null) {
 						return new Move(new Cell(i, j), player);
 					}
 				}
