@@ -1,5 +1,7 @@
 package boardgame.boards;
 
+import java.util.Arrays;
+
 import boardgame.game.Board;
 import boardgame.game.Cell;
 import boardgame.game.Move;
@@ -38,6 +40,14 @@ public class TicTacToeBoard implements Board {
 	@Override
 	public void move(Move move) {
 		this.setCell(move.getPlayer().getSymbol(), move.getCell());
+	}
+
+	public TicTacToeBoard copy() {
+		TicTacToeBoard board = new TicTacToeBoard();
+		for (int i = 0; i < 3; i++) {
+			board.cells[i] = Arrays.copyOf(this.cells[i], this.cells[i].length);
+		}
+		return board;
 	}
 
 }
