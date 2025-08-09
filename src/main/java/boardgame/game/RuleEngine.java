@@ -1,8 +1,6 @@
 package boardgame.game;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.function.BiFunction;
 import java.util.function.Function;
@@ -12,7 +10,7 @@ import boardgame.boards.TicTacToeBoard;
 
 public class RuleEngine {
 
-	Map<String, List<Rule<TicTacToeBoard>>> ruleMap;
+	Map<String, RuleSet<TicTacToeBoard>> ruleMap;
 
 	public GameInfo checkFork(Board board) {
 
@@ -54,8 +52,8 @@ public class RuleEngine {
 
 	public RuleEngine() {
 		ruleMap = new HashMap<>();
-		ruleMap.put(TicTacToeBoard.class.getName(), new ArrayList<>());
-		List<Rule<TicTacToeBoard>> ticTacToeRuleList = ruleMap.get(TicTacToeBoard.class.getName());
+		ruleMap.put(TicTacToeBoard.class.getName(), new RuleSet<>());
+		RuleSet<TicTacToeBoard> ticTacToeRuleList = ruleMap.get(TicTacToeBoard.class.getName());
 		ticTacToeRuleList.add(new Rule<>(board -> outerTraversal((i, j) -> board.getCellSymbol(i, j))));
 		ticTacToeRuleList.add(new Rule<>(board -> outerTraversal((i, j) -> board.getCellSymbol(j, i))));
 		ticTacToeRuleList.add(new Rule<>(board -> traverse(i -> board.getCellSymbol(i, i))));
@@ -73,7 +71,7 @@ public class RuleEngine {
 	public GameResult getState(Board board) {
 
 		if (board instanceof TicTacToeBoard ticTacBoard) {
-			List<Rule<TicTacToeBoard>> ticTacToeRules = ruleMap.get(TicTacToeBoard.class.getName());
+			RuleSet<TicTacToeBoard> ticTacToeRules = ruleMap.get(TicTacToeBoard.class.getName());
 			for (Rule<TicTacToeBoard> rule : ticTacToeRules) {
 				GameResult gameResult = rule.condition.apply(ticTacBoard);
 				if (gameResult.isOver()) {

@@ -42,6 +42,7 @@ public class TicTacToeBoard implements Board {
 		this.setCell(move.getPlayer().getSymbol(), move.getCell());
 	}
 
+	@Override
 	public TicTacToeBoard copy() {
 		TicTacToeBoard board = new TicTacToeBoard();
 		for (int i = 0; i < 3; i++) {
